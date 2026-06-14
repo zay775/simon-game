@@ -66,4 +66,17 @@ h1 {
     margin-top: 15px;
     font-size: 1.3rem;
 }
+#leaderboard {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+#leaderboard li {
+    background: rgba(255, 255, 255, 0.15);
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
 
