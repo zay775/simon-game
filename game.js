@@ -14,7 +14,7 @@ document.getElementById("start-btn").addEventListener("click", function () {
     }
 });
 
-// Click detection
+// Detect clicks
 document.querySelectorAll(".btn").forEach(btn => {
     btn.addEventListener("click", function () {
         let userColor = this.id;
@@ -35,6 +35,12 @@ function checkAnswer(currentLevel) {
         setTimeout(() => document.body.style.backgroundColor = "", 200);
 
         document.getElementById("level-title").textContent = "Game Over! Press Start";
+
+        // Ask for name + save score
+        let playerName = prompt("Game Over! Enter your name:");
+        if (playerName) {
+            saveScore(playerName, level - 1);
+        }
 
         updateHighScore();
         startOver();
@@ -74,3 +80,34 @@ function startOver() {
     started = false;
 }
 
+/* ---------------------------
+   LEADERBOARD FUNCTIONS
+---------------------------- */
+
+function saveScore(name, score) {
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    leaderboard.push({ name: name, score: score });
+
+    leaderboard.sort((a, b) => b.score - a.score);
+
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+    displayLeaderboard();
+}
+
+function displayLeaderboard() {
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+    let list = document.getElementById("leaderboard");
+
+    list.innerHTML = "";
+
+    leaderboard.forEach(entry => {
+        let li = document.createElement("li");
+        li.textContent = `${entry.name}: ${entry.score}`;
+        list.appendChild(li);
+    });
+}
+
+// Load leaderboard on page start
+displayLeaderboard();
